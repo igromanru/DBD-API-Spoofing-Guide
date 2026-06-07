@@ -27,7 +27,7 @@ After installing and launching Fiddler:
 7. Select `C#` as **Language**.
 8. Press **OK** button  of the Options dialog and restart Fiddler.
 
-## FiddlerScript setup
+## FiddlerScript and Responses setup
 
 1. Make sure you have done everything described in [Fiddler setup](#fiddler-setup) above.
 2. 
