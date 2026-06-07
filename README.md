@@ -12,7 +12,12 @@ They only check if you own the character when you join a server, so don't try to
 - My **MergeResponses.cs** FiddlerScript
 - SSL Bypass (needed only for Steam)
 
-## Downloading latest Fiddler
+## Download latest Fiddler
+You can download latest version of Fiddler Classic from the official telerik site.  
+https://www.telerik.com/download/fiddler  
+Just fill out the form with a random E-Mail, it doesn't has to be valid, it will lead directly to the download.
 ## Fiddler setup
+
+
 ## FiddlerScript setup
 ## Market files aka. API Responses generation
