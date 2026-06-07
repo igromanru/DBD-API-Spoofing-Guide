@@ -2,7 +2,7 @@
 
 In DBD you can hijack and spoof API responses to trick the game into thinking that you own certain Items, Perks, Skins and have a certain character prestige.  
 Currently the game just let you role with it and you can use them freely in online matches.  
-They only check if you own the character when you join a server, so don't try to use any character that you haven't unlocked through normal methods.
+They only check if you own the character, profile picture and banner when you join a server, so don't try to use any them that you haven't unlocked through normal methods.
 
 ## Index
 
@@ -27,9 +27,38 @@ After installing and launching Fiddler:
 7. Select `C#` as **Language**.
 8. Press **OK** button  of the Options dialog and restart Fiddler.
 
-## FiddlerScript and Responses setup
+## FiddlerScript and Responses installation
 
 1. Make sure you have done everything described in [Fiddler setup](#fiddler-setup) above.
-2. 
+2. Use **Fiddler-Scripts-Directory** shortcut or navigate yourself to the Fiddler's Scripts directory: `%USERPROFILE%\Documents\Fiddler2\Scripts\`
+3. Copy the whole `MarketFiles` folder and the `CustomRules.cs` (replace exiting one) to the scripts directory.
+4. Done. The script will be activated automatically and you can toggle it in  
+   Context Menu -> **Rules** -> **Enable DBD Responses Merge**. 
+5. Always start Fiddler before the game!
+
+
+## Market aka. "/all" response options
+`MarketFiles` has multiple options for "/all" API endpoint, which basically contains most of things that are getting unlocked. You can choose between following files:  
+- `Market.json`: Contains all inventory items (that you choose while generating with Melancholy). Items, Perks, Skins, profile pictures and banners.  
+- `MarketDlcOnly.json`: Contains only characters. (It's a obsolete file, since you can't unlock characters this way anymore)
+- `MarketNoSavefile.json`: Can't remember, but I think it contains everything beside Items and Addons. Or some specific Items and Addons are missing.
+- `MarketTempWithNoCosmetics.json`: Only Items, Addons, Perks and Characters 
+- `MarketWithPerks.json`: Everything beside Items and Addons
+
+**You can choose which one you want to use.**  
+Per default the script uses full profile, the `Market.json`.  
+If you want to change it:  
+
+1. Open the `CustomRules.cs` script in any text editor of your choosing OR in Fiddler under **FiddlerScript**.
+2. Replace `Market.json` (in line 94) with the file you want.
+   e.g.
+   ```csharp
+   DeserializedResponseObject = JsonConvert.DeserializeObject<AllSchema.AllResponse>(File.ReadAllText(ScriptsDir + @"MarketFiles\Market.json")),`
+   ```
+   ->
+   ```csharp
+   DeserializedResponseObject = JsonConvert.DeserializeObject<AllSchema.AllResponse>(File.ReadAllText(ScriptsDir + @"MarketFiles\MarketTempWithNoCosmetics.json")),
+   ```
+3. Done. Restart the game for the effect to take,
 
 ## Market files aka. API Responses generation
