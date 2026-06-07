@@ -17,7 +17,19 @@ You can download latest version of Fiddler Classic from the official telerik sit
 https://www.telerik.com/download/fiddler  
 Just fill out the form with a random E-Mail, it doesn't has to be valid, it will lead directly to the download.
 ## Fiddler setup
-
+After installing and launching Fiddler:  
+1. In the Context Menu select **Tools**->**Options...**.
+2. In Options dialog open the **HTTPS** tab.
+3. Enable **Capture HTTPS CONNECTs** and **Decrypt HTTPS traffic**.
+4. Press the **Actions** button and select **Trust Root Certificate**, then confirm any dialog that will pop-up with **Yes**, to install Fiddlers certificate for HTTPS decryption.  
+5. Now switch to the **Scripting** tab.
+6. Copy and paste into the **References** following: `System.Core.dll;Newtonsoft.Json.dll`.
+7. Select `C#` as **Language**.
+8. Press **OK** button  of the Options dialog and restart Fiddler.
 
 ## FiddlerScript setup
+
+1. Make sure you have done everything described in [Fiddler setup](#fiddler-setup) above.
+2. 
+
 ## Market files aka. API Responses generation
