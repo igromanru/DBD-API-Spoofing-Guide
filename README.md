@@ -1,8 +1,10 @@
 # Dead by Daylight Items, Perks and Skins temporary Unlock Guide
-
 In DBD you can hijack and spoof API responses to trick the game into thinking that you own certain Items, Perks, Skins, and have a certain character prestige.  
 Currently the game just lets you roll with it and you can use them freely in online matches.  
 They only check if you own the character, profile picture, and banner when you join a server, so don't try to use any of them that you haven't unlocked through normal methods.
+
+This guide is built around my C# FiddlerScript that automatically merges original API responses with the "spoof" JSON files that contain all items/stuff that will be unlocked.  
+Merging allows keeping loadouts and everything else that wasn't covered by the JSON files.
 
 ## Index
 
@@ -13,9 +15,9 @@ They only check if you own the character, profile picture, and banner when you j
 - SSL Bypass (needed only for Steam)
 
 ## Download latest Fiddler
-You can download the latest version of Fiddler Classic from the official telerik site.  
+You can download the latest version of Fiddler Classic from the official Telerik site.  
 https://www.telerik.com/download/fiddler  
-Just fill out the form with a random E-Mail; it doesn't have to be valid, it will lead directly to the download.
+Just fill out the form with a random e-mail; it doesn't have to be valid, it will lead directly to the download.
 ## Fiddler setup
 After installing and launching Fiddler:  
 1. In the Context Menu select **Tools**->**Options...**.
@@ -30,7 +32,7 @@ After installing and launching Fiddler:
 ## FiddlerScript and Responses installation
 
 1. Make sure you have done everything described in [Fiddler setup](#fiddler-setup) above.
-2. Use the **Fiddler-Scripts-Directory** shortcut or navigate yourself to Fiddler's Scripts directory: `%USERPROFILE%\Documents\Fiddler2\Scripts\`
+2. Use the **Fiddler-Scripts-Directory** shortcut or navigate to Fiddler's Scripts directory: `%USERPROFILE%\Documents\Fiddler2\Scripts\`
 3. Copy the whole `MarketFiles` folder and the `CustomRules.cs` (replace the existing one) to the scripts directory.
 4. Done. The script will be activated automatically and you can toggle it in  
    Context Menu -> **Rules** -> **Enable DBD Responses Merge**. 
@@ -40,8 +42,8 @@ After installing and launching Fiddler:
 ## Market aka. "/all" response options
 `MarketFiles` has multiple options for the "/all" API endpoint, which basically contains most of the things that are getting unlocked. You can choose between the following files:  
 - `Market.json`: Contains all inventory items (that you choose while generating with Melancholy). Items, Perks, Skins, profile pictures and banners.  
-- `MarketDlcOnly.json`: Contains only characters. (It's an obsolete file, since you can't unlock characters this way anymore)
-- `MarketNoSavefile.json`: Can't remember, but I think it contains everything besides Items and Addons. Or some specific Items and Addons are missing.
+- `MarketDlcOnly.json`: Contains only characters. (It's an obsolete file, since you can't unlock characters this way anymore.)
+- `MarketNoSavefile.json`: Can't remember, but I think it contains everything besides Items and Addons, or some specific Items and Addons are missing.
 - `MarketTempWithNoCosmetics.json`: Only Items, Addons, Perks, and Characters 
 - `MarketWithPerks.json`: Everything besides Items and Addons
 
@@ -59,6 +61,18 @@ If you want to change it:
    ```csharp
    DeserializedResponseObject = JsonConvert.DeserializeObject<AllSchema.AllResponse>(File.ReadAllText(ScriptsDir + @"MarketFiles\MarketTempWithNoCosmetics.json")),
    ```
-3. Done. Restart the game for the effect to take.
+3. Done. Restart the game for the effect to take effect.
 
 ## Market files aka. API Responses generation
+With game updates you will want to generate the new "MarketFiles" aka. JSON files containing API Responses.  
+To do that you need the tool called [Melancholy](https://github.com/OssieFromDK/Melancholy), that was made by [OssieFromDK](https://github.com/OssieFromDK).
+
+You can either try to compile the latest version of the open source tool and update/fix it, or, if it still works, use the pre-compiled version that is included in the release of this guide.
+
+
+## FAQ
+
+## Credits
+- Ossie (OssieFromDK) for [Melancholy](https://github.com/OssieFromDK/Melancholy) (market files generator)
+- GhostyPool for [working Fork of Melancholy](https://github.com/GhostyPool/Melancholy)
+- Igromanru (me) for the FiddlerScript and the guide
