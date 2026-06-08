@@ -97,7 +97,7 @@ You can either try to compile the latest version of the open source tool and upd
 5. Copy the file and place it in the same directory as `Melancholy.exe`.  
 6. Execute the `Melancholy.exe`. 
 7. Follow its requests.
-   1. Provide a path to the .paks files, then press Enter to continue. 
+   1. Provide a path to the .pak files, then press Enter to continue. 
       e.g. for Epic: `C:\Program Files\Epic Games\DeadByDaylight\DeadByDaylight\Content\Paks`
    2. Provide the AES key, then press Enter to continue. (The AES key rarely changes.)  
       v9.6.2 AES key: `0x22B1639B548124925CF7B9CBAA09F9AC295FCF0324586D6B37EE1D42670B39B3`

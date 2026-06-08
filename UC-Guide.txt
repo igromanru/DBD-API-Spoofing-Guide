@@ -25,23 +25,27 @@ Just fill out the form with a random e-mail; it doesn't have to be valid; it wil
 
 [SIZE="4"][B]Fiddler setup[/B][/SIZE]
 After installing and launching Fiddler:  
-1. In the Context Menu select [B]Tools->Options...[/B].
-2. In Options dialog open the [B]HTTPS[/B] tab.
-3. Enable [B]Capture HTTPS CONNECTs[/B] and [B]Decrypt HTTPS traffic[/B].
-4. Press the [B]Actions[/B] button and select [B]Trust Root Certificate[/B], then confirm any dialog that will pop up with [B]Yes[/B], to install Fiddler's certificate for HTTPS decryption.  
-5. Now switch to the [B]Scripting[/B] tab.
-6. Copy and paste the following into [B]References[/B]: [B]System.Core.dll;Newtonsoft.Json.dll[/B].
-7. Select [B]C#[/B] as [B]Language[/B].
-8. Press the [B]OK[/B] button of the Options dialog and restart Fiddler.
+[LIST=1]
+[*]In the Context Menu select [B]Tools->Options...[/B].
+[*]In Options dialog open the [B]HTTPS[/B] tab.
+[*]Enable [B]Capture HTTPS CONNECTs[/B] and [B]Decrypt HTTPS traffic[/B].
+[*]Press the [B]Actions[/B] button and select [B]Trust Root Certificate[/B], then confirm any dialog that will pop up with [B]Yes[/B], to install Fiddler's certificate for HTTPS decryption.  
+[*]Now switch to the [B]Scripting[/B] tab.
+[*]Copy and paste the following into [B]References[/B]: [B]System.Core.dll;Newtonsoft.Json.dll[/B].
+[*]Select [B]C#[/B] as [B]Language[/B].
+[*]Press the [B]OK[/B] button of the Options dialog and restart Fiddler.
+[/LIST]
 
 [SIZE="4"][B]FiddlerScript and Responses installation[/B][/SIZE]
-1. Make sure you have done everything described in Fiddler setup above.
-2. Use the [B]Fiddler-Scripts-Directory[/B] shortcut or navigate to Fiddler's Scripts directory: [B]%USERPROFILE%\Documents\Fiddler2\Scripts\[/B]
-3. Copy the whole [B]MarketFiles[/B] folder and the [B]CustomRules.cs[/B] (replace the existing one) to the scripts directory.
-4. Done. The script will be activated automatically.  
-   You can toggle it on/off in  
-   Context Menu -> [B]Rules -> Enable DBD Responses Merge[/B]. 
-5. Always start Fiddler before the game!
+[LIST=1]
+[*]Make sure you have done everything described in Fiddler setup above.
+[*]Use [STRIKE]the [B]Fiddler-Scripts-Directory[/B] shortcut[/STRIKE] (I forget to include it in release) or navigate to Fiddler's Scripts directory: [B]%USERPROFILE%\Documents\Fiddler2\Scripts\[/B]
+[*]Copy the whole [B]MarketFiles[/B] folder and the [B]CustomRules.cs[/B] (replace the existing one) to the scripts directory.
+[*]Done. The script will be activated automatically.  
+       You can toggle it on/off in  
+       Context Menu -> [B]Rules -> Enable DBD Responses Merge[/B]. 
+[*]Always start Fiddler before the game!
+[/LIST]
 
 [SIZE="4"][B]Market aka. "/all" response options[/B][/SIZE]
 MarketFiles has multiple options for the "/all" API endpoint, which basically contains most of the things that get unlocked. You can choose between the following files:  
@@ -56,7 +60,7 @@ By default, the script uses the full profile [B]Market.json[/B].
 If you want to change it:  
 
 1. Open the [B]CustomRules.cs[/B] script in any text editor of your choosing OR in Fiddler under [B]FiddlerScript[/B].
-2. Replace `Market.json` (in line 94) with the file you want.
+2. Replace [B]Market.json[/B] (in line 94) with the file you want.
    e.g.
 [CODE]DeserializedResponseObject = JsonConvert.DeserializeObject<AllSchema.AllResponse>(File.ReadAllText(ScriptsDir + @"MarketFiles\Market.json")),[/CODE]
    ->
@@ -79,11 +83,13 @@ You can either try to compile the latest version of the open source tool and upd
 5. Copy the file and place it in the same directory as [B]Melancholy.exe[/B].  
 6. Execute the [B]Melancholy.exe[/B]. 
 7. Follow its requests.
-   1. Provide a path to the .paks files, then press Enter to continue. 
-      e.g. for Epic: C:\Program Files\Epic Games\DeadByDaylight\DeadByDaylight\Content\Paks
-   2. Provide the AES key, then press Enter to continue. (The AES key rarely changes.)  
+   [LIST=1]
+[*]Provide a path to the .pak files, then press Enter to continue. 
+        e.g. for Epic: C:\Program Files\Epic Games\DeadByDaylight\DeadByDaylight\Content\Paks
+[*]Provide the AES key, then press Enter to continue. (The AES key rarely changes.)  
       v9.6.2 AES key: 0x22B1639B548124925CF7B9CBAA09F9AC295FCF0324586D6B37EE1D42670B39B3
-   3. Press [B]1[/B] to select the only [B].usmap[/B] that should be in the exe's directory, then press Enter to continue.
+[*]Press [B]1[/B] to select the only [B].usmap[/B] that should be in the exe's directory, then press Enter to continue.
+[/LIST]
 8. After setting up the Melancholy tool, it will start asking you about what you want to generate. Press [B]Y[/B] or [B]N[/B] to select your options, or simply keep the default by pressing [B]Enter[/B] to continue.
 9. Once done, the [B]Files[/B] directory will contain new [B]MarketFiles[/B].
 
