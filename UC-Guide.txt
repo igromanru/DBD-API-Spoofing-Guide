@@ -76,22 +76,25 @@ The tool requires an up-to-date [B].usmap[/B] mapping file, which you have to fi
 
 You can either try to compile the latest version of the open source tool and update/fix it, or, if it still works, use the pre-compiled version that is included in the release of this guide.
 
-1. Clone and compile Dumper-7.
-2. Start the game without EAC.
-3. Inject [B]Dumper-7.dll[/B] into the game process. (I recommend using System Informer to suspend the process first before injecting.)
-4. Find the SDK dump in [B]C:\Dumper-7\[/B]. There will be a [B]Mappings[/B] folder with a [B].usmap[/B] file in it.
-5. Copy the file and place it in the same directory as [B]Melancholy.exe[/B].  
-6. Execute the [B]Melancholy.exe[/B]. 
-7. Follow its requests.
-   [LIST=1]
+[LIST=1]
+[*]Clone and compile Dumper-7.
+[*]Start the game without EAC.
+[*]Inject [B]Dumper-7.dll[/B] into the game process. (I recommend using System Informer to suspend the process first before injecting.)
+[*]Find the SDK dump in [B]C:\Dumper-7\[/B]. There will be a [B]Mappings[/B] folder with a [B].usmap[/B] file in it.
+[*]Download Melancholy from release or clone the source and compile it yourself.
+[*]Copy the [B].usmap[/B] file and place it in the same directory as [B]Melancholy.exe[/B].  
+[*]Execute the [B]Melancholy.exe[/B]. 
+[*]Follow its requests.
+[LIST=1]
 [*]Provide a path to the .pak files, then press Enter to continue. 
         e.g. for Epic: C:\Program Files\Epic Games\DeadByDaylight\DeadByDaylight\Content\Paks
 [*]Provide the AES key, then press Enter to continue. (The AES key rarely changes.)  
       v9.6.2 AES key: 0x22B1639B548124925CF7B9CBAA09F9AC295FCF0324586D6B37EE1D42670B39B3
 [*]Press [B]1[/B] to select the only [B].usmap[/B] that should be in the exe's directory, then press Enter to continue.
 [/LIST]
-8. After setting up the Melancholy tool, it will start asking you about what you want to generate. Press [B]Y[/B] or [B]N[/B] to select your options, or simply keep the default by pressing [B]Enter[/B] to continue.
-9. Once done, the [B]Files[/B] directory will contain new [B]MarketFiles[/B].
+[*]After setting up the Melancholy tool, it will start asking you about what you want to generate. Press [B]Y[/B] or [B]N[/B] to select your options, or simply keep the default by pressing [B]Enter[/B] to continue.
+[*]Once done, the [B]Files[/B] directory will contain new [B]MarketFiles[/B].
+[/LIST]
 
 [SIZE="4"][B]FAQ[/B][/SIZE]
 [SIZE="3"]SSL Bypass / Fiddler doesn't work with the Steam version[/SIZE]

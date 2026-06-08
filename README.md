@@ -94,16 +94,17 @@ You can either try to compile the latest version of the open source tool and upd
 2. Start the game without EAC.
 3. Inject `Dumper-7.dll` into the game process. (I recommend using System Informer to suspend the process first before injecting.)
 4. Find the SDK dump in `C:\Dumper-7\`. There will be a `Mappings` folder with a `.usmap` file in it.
-5. Copy the file and place it in the same directory as `Melancholy.exe`.  
-6. Execute the `Melancholy.exe`. 
-7. Follow its requests.
+5. Download Melancholy from release or clone the source and compile it yourself.  
+6. Copy the `.usmap` file and place it in the same directory as `Melancholy.exe`.  
+7. Execute the `Melancholy.exe`. 
+8. Follow its requests.
    1. Provide a path to the .pak files, then press Enter to continue. 
       e.g. for Epic: `C:\Program Files\Epic Games\DeadByDaylight\DeadByDaylight\Content\Paks`
    2. Provide the AES key, then press Enter to continue. (The AES key rarely changes.)  
       v9.6.2 AES key: `0x22B1639B548124925CF7B9CBAA09F9AC295FCF0324586D6B37EE1D42670B39B3`
    3. Press `1` to select the only `.usmap` that should be in the exe's directory, then press Enter to continue.
-8. After setting up the Melancholy tool, it will start asking you about what you want to generate. Press `Y` or `N` to select your options, or simply keep the default by pressing `Enter` to continue.
-9. Once done, the `Files` directory will contain new `MarketFiles`.
+9. After setting up the Melancholy tool, it will start asking you about what you want to generate. Press `Y` or `N` to select your options, or simply keep the default by pressing `Enter` to continue.
+10. Once done, the `Files` directory will contain new `MarketFiles`.
 
 ## FAQ
 ### SSL Bypass / Fiddler doesn't work with the Steam version
