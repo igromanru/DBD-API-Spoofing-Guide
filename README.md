@@ -24,7 +24,7 @@ Merging preserves loadouts and everything else that wasn't covered by the JSON f
 ### For unlocking
 - [Fiddler Classic](https://www.telerik.com/download/fiddler)
 - Market files, aka spoof API responses for the latest version of the game
-- My **MergeResponses.cs** FiddlerScript
+- My **CustomRules.cs** FiddlerScript
 - *SSL Bypass* (only needed for Steam)
 
 ### For Market Files update
@@ -114,4 +114,5 @@ For that you need an EAC-undetected "SSL Bypass".
 ## Credits
 - Ossie (OssieFromDK) for [Melancholy](https://github.com/OssieFromDK/Melancholy) (market files generator)
 - GhostyPool for [working Fork of Melancholy](https://github.com/GhostyPool/Melancholy)
+- Fischsalat for [Dumper-7](https://github.com/Encryqed/Dumper-7)
 - Igromanru (me) for the FiddlerScript and the guide

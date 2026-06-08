@@ -1,0 +1,104 @@
+[SIZE="4"][B]Description[/B][/SIZE]
+In DBD you can hijack and spoof API responses to trick the game into thinking that you own certain/all Items, Perks, Skins, and characters, or have a custom prestige level.  
+Currently, the game just lets you roll with it and you can use them freely in online matches.  
+They only check if you own the character, profile picture, and banner when you join a server, so don't try to use any of them that you haven't unlocked through normal means.
+
+This guide is built around my C# FiddlerScript that automatically merges original API responses with the "spoof" JSON files containing all items and stuff that will be unlocked.  
+Merging preserves loadouts and everything else that wasn't covered by the JSON files.
+
+[INFO][B]Due to forum rules, I had to remove all external links from the guide![/B]
+Therefore, it's basically incomplete. But like always, you can find the full version in my public repository.[/INFO]
+[SIZE="4"][B]Required resources[/B][/SIZE]
+[SIZE="3"]For unlocking[/SIZE]
+- Fiddler Classic
+- Market files, aka spoof API responses for the latest version of the game
+- My CustomRules.cs FiddlerScript
+- [I]SSL Bypass[/I] (only needed for Steam)
+
+[SIZE="3"]For Market Files update[/SIZE]
+- Melancholy (Market file generator)
+- [URL="https://www.unknowncheats.me/forum/unreal-engine-4-a/594092-dumper-7-universal-automatic-unreal-engine-sdk-generator-ue4-ue5.html"]Dumper-7[/URL]
+
+[SIZE="4"][B]Download latest Fiddler[/B][/SIZE]
+You can download the latest version of Fiddler Classic from the official Telerik site.  
+Just fill out the form with a random e-mail; it doesn't have to be valid; it will lead directly to the download.
+
+[SIZE="4"][B]Fiddler setup[/B][/SIZE]
+After installing and launching Fiddler:  
+1. In the Context Menu select [B]Tools->Options...[/B].
+2. In Options dialog open the [B]HTTPS[/B] tab.
+3. Enable [B]Capture HTTPS CONNECTs[/B] and [B]Decrypt HTTPS traffic[/B].
+4. Press the [B]Actions[/B] button and select [B]Trust Root Certificate[/B], then confirm any dialog that will pop up with [B]Yes[/B], to install Fiddler's certificate for HTTPS decryption.  
+5. Now switch to the [B]Scripting[/B] tab.
+6. Copy and paste the following into [B]References[/B]: [B]System.Core.dll;Newtonsoft.Json.dll[/B].
+7. Select [B]C#[/B] as [B]Language[/B].
+8. Press the [B]OK[/B] button of the Options dialog and restart Fiddler.
+
+[SIZE="4"][B]FiddlerScript and Responses installation[/B][/SIZE]
+1. Make sure you have done everything described in Fiddler setup above.
+2. Use the [B]Fiddler-Scripts-Directory[/B] shortcut or navigate to Fiddler's Scripts directory: [B]%USERPROFILE%\Documents\Fiddler2\Scripts\[/B]
+3. Copy the whole [B]MarketFiles[/B] folder and the [B]CustomRules.cs[/B] (replace the existing one) to the scripts directory.
+4. Done. The script will be activated automatically.  
+   You can toggle it on/off in  
+   Context Menu -> [B]Rules -> Enable DBD Responses Merge[/B]. 
+5. Always start Fiddler before the game!
+
+[SIZE="4"][B]Market aka. "/all" response options[/B][/SIZE]
+MarketFiles has multiple options for the "/all" API endpoint, which basically contains most of the things that get unlocked. You can choose between the following files:  
+- [B]Market.json[/B]: Contains all inventory items (that you choose while generating with Melancholy). Items, Perks, Skins, profile pictures and banners.  
+- [B]MarketDlcOnly.json[/B]: Contains only characters. (It's an obsolete file, since you can't unlock characters this way anymore.)
+- [B]MarketNoSavefile.json[/B]: Can't remember, but I think it contains everything besides Items and Addons, or some specific Items and Addons are missing.
+- [B]MarketTempWithNoCosmetics.json[/B]: Only Items, Addons, Perks, and Characters 
+- [B]MarketWithPerks.json[/B]: Everything besides Items and Addons
+
+[B]You can choose which one you want to use.[/B]
+By default, the script uses the full profile [B]Market.json[/B].  
+If you want to change it:  
+
+1. Open the [B]CustomRules.cs[/B] script in any text editor of your choosing OR in Fiddler under [B]FiddlerScript[/B].
+2. Replace `Market.json` (in line 94) with the file you want.
+   e.g.
+[CODE]DeserializedResponseObject = JsonConvert.DeserializeObject<AllSchema.AllResponse>(File.ReadAllText(ScriptsDir + @"MarketFiles\Market.json")),[/CODE]
+   ->
+[CODE]DeserializedResponseObject = JsonConvert.DeserializeObject<AllSchema.AllResponse>(File.ReadAllText(ScriptsDir + @"MarketFiles\MarketTempWithNoCosmetics.json")),[/CODE]
+3. Done. Restart the game for the change to take effect.
+
+[SIZE="4"][B]Market files aka. API responses generation[/B][/SIZE]
+[I]This section covers only the base steps; it's only for advanced cheaters, and you have to figure out the details yourself![/I]
+
+With game updates, you will want to generate the new "MarketFiles" aka JSON files containing API responses.  
+To do that you need the tool called Melancholy, that was made by OssieFromDK.  
+The tool requires an up-to-date [B].usmap[/B] mapping file, which you have to find or dump yourself.
+
+You can either try to compile the latest version of the open source tool and update/fix it, or, if it still works, use the pre-compiled version that is included in the release of this guide.
+
+1. Clone and compile Dumper-7.
+2. Start the game without EAC.
+3. Inject [B]Dumper-7.dll[/B] into the game process. (I recommend using System Informer to suspend the process first before injecting.)
+4. Find the SDK dump in [B]C:\Dumper-7\[/B]. There will be a [B]Mappings[/B] folder with a [B].usmap[/B] file in it.
+5. Copy the file and place it in the same directory as [B]Melancholy.exe[/B].  
+6. Execute the [B]Melancholy.exe[/B]. 
+7. Follow its requests.
+   1. Provide a path to the .paks files, then press Enter to continue. 
+      e.g. for Epic: C:\Program Files\Epic Games\DeadByDaylight\DeadByDaylight\Content\Paks
+   2. Provide the AES key, then press Enter to continue. (The AES key rarely changes.)  
+      v9.6.2 AES key: 0x22B1639B548124925CF7B9CBAA09F9AC295FCF0324586D6B37EE1D42670B39B3
+   3. Press [B]1[/B] to select the only [B].usmap[/B] that should be in the exe's directory, then press Enter to continue.
+8. After setting up the Melancholy tool, it will start asking you about what you want to generate. Press [B]Y[/B] or [B]N[/B] to select your options, or simply keep the default by pressing [B]Enter[/B] to continue.
+9. Once done, the [B]Files[/B] directory will contain new [B]MarketFiles[/B].
+
+[SIZE="4"][B]FAQ[/B][/SIZE]
+[SIZE="3"]SSL Bypass / Fiddler doesn't work with the Steam version[/SIZE]
+In the Steam version of the game, certificate validation is enabled.  
+In order to be able to use Fiddler or any other HTTP proxy to decode encrypted requests, you need to disable the validation.  
+For that you need an EAC-undetected "SSL Bypass".  
+
+[SIZE="4"][B]Credits[/B][/SIZE]
+- Ossie (OssieFromDK) for Melancholy (market files generator)
+- GhostyPool for working Fork of Melancholy
+- Fischsalat for Dumper-7
+- Igromanru (me) for the FiddlerScript and the guide
+
+[SIZE="4"][B]Downloads[/B][/SIZE]
+[URL="https://www.unknowncheats.me/forum/downloads.php?do=file&id=55463"]DBD Responses Merge FS v1.0.0 + MarketFiles[/URL]
+[URL="https://www.unknowncheats.me/forum/downloads.php?do=file&id=55464"]Melancholy_v9.6.0_GhostyPool-Fork_win-x64[/URL]
