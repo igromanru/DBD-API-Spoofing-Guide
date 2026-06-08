@@ -7,6 +7,18 @@ This guide is built around my C# FiddlerScript that automatically merges origina
 Merging preserves loadouts and everything else that wasn't covered by the JSON files.
 
 ## Index
+- [Required resources](#required-resources)
+   - [For unlocking](#for-unlocking)
+   - [For Market Files update](#for-market-files-update)
+- [Download latest Fiddler](#download-latest-fiddler)
+- [Fiddler setup](#fiddler-setup)
+- [FiddlerScript and Responses installation](#fiddlerscript-and-responses-installation)
+- [Market aka. "/all" response options](#market-aka-all-response-options)
+- [Market files aka. API responses generation](#market-files-aka-api-responses-generation)
+- [FAQ](#faq)
+   - [SSL Bypass / Fiddler doesn't work with the Steam version](#ssl-bypass--fiddler-doesnt-work-with-the-steam-version)
+- [Credits](#credits)
+
 
 ## Required resources
 ### For unlocking
