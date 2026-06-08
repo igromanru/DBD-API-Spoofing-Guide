@@ -1,5 +1,5 @@
 # Dead by Daylight Items, Perks and Skins temporary Unlock Guide
-In DBD you can hijack and spoof API responses to trick the game into thinking that you own certain Items, Perks, Skins, and have a certain character prestige.  
+In DBD you can hijack and spoof API responses to trick the game into thinking that you own certain/all Items, Perks, Skins, and have a certain character prestige.  
 Currently the game just lets you roll with it and you can use them freely in online matches.  
 They only check if you own the character, profile picture, and banner when you join a server, so don't try to use any of them that you haven't unlocked through normal methods.
 
@@ -9,10 +9,15 @@ Merging allows keeping loadouts and everything else that wasn't covered by the J
 ## Index
 
 ## Required resources
+### For unlocking
 - [Fiddler Classic](https://www.telerik.com/download/fiddler)
-- [Melancholy (Market file generator) by OssieFromDK](https://github.com/igromanru/Melancholy) **OR** Market files aka. spoof API responses for latest version of the game
+- Market files aka. spoof API responses for latest version of the game
 - My **MergeResponses.cs** FiddlerScript
 - SSL Bypass (needed only for Steam)
+
+### For Market Files update
+- [Melancholy (Market file generator)](https://github.com/igromanru/Melancholy)
+- [Dumper-7](https://github.com/Encryqed/Dumper-7)
 
 ## Download latest Fiddler
 You can download the latest version of Fiddler Classic from the official Telerik site.  
@@ -64,13 +69,20 @@ If you want to change it:
 3. Done. Restart the game for the effect to take effect.
 
 ## Market files aka. API Responses generation
+*I will cover only shallow what you have to do. Most likely only people with coding skills will be able to figure out how it can be done.*
+
 With game updates you will want to generate the new "MarketFiles" aka. JSON files containing API Responses.  
 To do that you need the tool called [Melancholy](https://github.com/OssieFromDK/Melancholy), that was made by [OssieFromDK](https://github.com/OssieFromDK).
 
 You can either try to compile the latest version of the open source tool and update/fix it, or, if it still works, use the pre-compiled version that is included in the release of this guide.
 
 
+
 ## FAQ
+### SSL Bypass / Fiddler doesn't work with the Steam version
+In the Steam version of the game they have certificate validation enabled.  
+In order to be able to use Fiddler or any other HTTP proxy to decode encrypted requests, you need to disable the validation.  
+For that you need a EAC undetected "SSL Bypass".  
 
 ## Credits
 - Ossie (OssieFromDK) for [Melancholy](https://github.com/OssieFromDK/Melancholy) (market files generator)
