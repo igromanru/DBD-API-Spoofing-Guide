@@ -87,7 +87,7 @@ You can either try to compile the latest version of the open source tool and upd
 [*]Follow its requests.
 [LIST=1]
 [*]Provide a path to the .pak files, then press Enter to continue. 
-        e.g. for Epic: C:\Program Files\Epic Games\DeadByDaylight\DeadByDaylight\Content\Paks
+      e.g. for Epic: C:\Program Files\Epic Games\DeadByDaylight\DeadByDaylight\Content\Paks
 [*]Provide the AES key, then press Enter to continue. (The AES key rarely changes.)  
       v9.6.2 AES key: 0x22B1639B548124925CF7B9CBAA09F9AC295FCF0324586D6B37EE1D42670B39B3
 [*]Press [B]1[/B] to select the only [B].usmap[/B] that should be in the exe's directory, then press Enter to continue.
@@ -101,6 +101,9 @@ You can either try to compile the latest version of the open source tool and upd
 In the Steam version of the game, certificate validation is enabled.  
 In order to be able to use Fiddler or any other HTTP proxy to decode encrypted requests, you need to disable the validation.  
 For that you need an EAC-undetected "SSL Bypass".  
+
+[SIZE="3"]After playing a match the items disappear[/SIZE]
+Open the Bloodweb to re-load the items.
 
 [SIZE="4"][B]Credits[/B][/SIZE]
 - Ossie (OssieFromDK) for Melancholy (market files generator)

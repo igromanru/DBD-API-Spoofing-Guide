@@ -112,6 +112,9 @@ In the Steam version of the game, certificate validation is enabled.
 In order to be able to use Fiddler or any other HTTP proxy to decode encrypted requests, you need to disable the validation.  
 For that you need an EAC-undetected "SSL Bypass".  
 
+### After playing a match the items disappear
+Open the Bloodweb to re-load the items.
+
 ## Credits
 - Ossie (OssieFromDK) for [Melancholy](https://github.com/OssieFromDK/Melancholy) (market files generator)
 - GhostyPool for [working Fork of Melancholy](https://github.com/GhostyPool/Melancholy)
