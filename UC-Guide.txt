@@ -51,7 +51,7 @@ After installing and launching Fiddler:
 MarketFiles has multiple options for the "/all" API endpoint, which basically contains most of the things that get unlocked. You can choose between the following files:  
 - [B]Market.json[/B]: Contains all inventory items (that you choose while generating with Melancholy). Items, Perks, Skins, profile pictures and banners.  
 - [B]MarketDlcOnly.json[/B]: Contains only characters. (It's an obsolete file, since you can't unlock characters this way anymore.)
-- [B]MarketNoSavefile.json[/B]: Can't remember, but I think it contains everything besides Items and Addons, or some specific Items and Addons are missing.
+- [B]MarketNoSavefile.json[/B]: No Perks and Items. You will partially see them thanks to Bloodweb spoof, but overall can't recommend to use it.
 - [B]MarketTempWithNoCosmetics.json[/B]: Only Items, Addons, Perks, and Characters 
 - [B]MarketWithPerks.json[/B]: Everything besides Items and Addons
 
@@ -87,7 +87,7 @@ You can either try to compile the latest version of the open source tool and upd
 [*]Follow its requests.
 [LIST=1]
 [*]Provide a path to the .pak files, then press Enter to continue. 
-      e.g. for Epic: C:\Program Files\Epic Games\DeadByDaylight\DeadByDaylight\Content\Paks
+        e.g. for Epic: C:\Program Files\Epic Games\DeadByDaylight\DeadByDaylight\Content\Paks
 [*]Provide the AES key, then press Enter to continue. (The AES key rarely changes.)  
       v9.6.2 AES key: 0x22B1639B548124925CF7B9CBAA09F9AC295FCF0324586D6B37EE1D42670B39B3
 [*]Press [B]1[/B] to select the only [B].usmap[/B] that should be in the exe's directory, then press Enter to continue.

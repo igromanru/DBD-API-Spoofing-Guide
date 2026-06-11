@@ -60,8 +60,8 @@ After installing and launching Fiddler:
 ## Market aka. "/all" response options
 MarketFiles has multiple options for the "/all" API endpoint, which basically contains most of the things that get unlocked. You can choose between the following files:  
 - `Market.json`: Contains all inventory items (that you choose while generating with Melancholy). Items, Perks, Skins, profile pictures and banners.  
-- `MarketDlcOnly.json`: Contains only characters. (It's an obsolete file, since you can't unlock characters this way anymore.)
-- `MarketNoSavefile.json`: Can't remember, but I think it contains everything besides Items and Addons, or some specific Items and Addons are missing.
+- `MarketDlcOnly.json`: Contains only characters. (It's an obsolete file, since you can't unlock characters this way anymore)
+- `MarketNoSavefile.json`: No Perks and Items. You will partially see them thanks to Bloodweb spoof, but overall can't recommend to use it.
 - `MarketTempWithNoCosmetics.json`: Only Items, Addons, Perks, and Characters 
 - `MarketWithPerks.json`: Everything besides Items and Addons
 
