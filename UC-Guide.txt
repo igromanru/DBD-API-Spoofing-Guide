@@ -1,5 +1,5 @@
 [SIZE="4"][B]Description[/B][/SIZE]
-In DBD you can hijack and spoof API responses to trick the game into thinking that you own certain/all Items, Perks, Skins, and characters, or have a custom prestige level.  
+In DBD you can hijack and spoof API responses to trick the game into thinking that you own certain/all Items, Perks, Skins, and set custom character prestige level.  
 Currently, the game just lets you roll with it and you can use them freely in online matches.  
 They only check if you own the character, profile picture, and banner when you join a server, so don't try to use any of them that you haven't unlocked through normal means.
 
