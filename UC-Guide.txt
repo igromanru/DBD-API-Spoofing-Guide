@@ -109,6 +109,14 @@ For that you need an EAC-undetected "SSL Bypass".
 [SIZE="3"]After playing a match the items disappear[/SIZE]
 Open the Bloodweb to re-load the items.
 
+[SIZE="3"]Is it safe to use?[/SIZE]
+Fiddler is a certified software, which will never get you banned just for using it.  
+Temporarily unlocking Items, Perks, and Skins is safe. They aren't saved to your account; you basically just trick your client into allowing you to select them, and then when a match starts, the game tells the server which Character, Banner, Profile Picture, Skins, Items, and Perks you've selected.  
+It's up to the server to check whether you actually own the things you want to use, and currently the server only checks ownership of Characters, Banners, and Profile Pictures.  
+I can't remember if you get kicked for trying to use a Banner or Profile Picture that you don't own, but I remember that you can't use them, and you will definitely get kicked for trying to use characters you don't have.  
+If you get kicked from the server, it counts as leaving the game, which will lead to [URL="https://support.deadbydaylight.com/hc/en-us/articles/4497940181652-Disconnection-Penalty-Matchmaking-Locked"]Disconnection Penalty[/URL].  
+So try to remember which Characters you own and only use them. You can start the game without Fiddler, select in character filter to show only "Unlocked" characters and make a screenshot for later references. 
+
 [SIZE="4"][B]Credits[/B][/SIZE]
 - Ossie (OssieFromDK) for Melancholy (market files generator)
 - GhostyPool for working Fork of Melancholy
