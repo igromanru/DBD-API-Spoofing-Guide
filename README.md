@@ -109,7 +109,8 @@ You can either try to compile the latest version of the open source tool and upd
    2. Provide the AES key, then press Enter to continue. (The AES key rarely changes.)  
       v9.6.2 AES key: `0x22B1639B548124925CF7B9CBAA09F9AC295FCF0324586D6B37EE1D42670B39B3`
    3. Press `1` to select the only `.usmap` that should be in the exe's directory, then press Enter to continue.
-9. After setting up the Melancholy tool, it will start asking you about what you want to generate. Press `Y` or `N` to select your options, or simply keep the default by pressing `Enter` to continue.
+9. After setting up the Melancholy tool, it will start asking you about what you want to generate. Press `Y` or `N` to select your options, or simply keep the default by pressing `Enter` to continue.  
+    **Important:** Press `N` if it asks whether you want to generate Banners and Badges! You can't use them anyway.
 10. Once done, the `Files` directory will contain new `MarketFiles`.
 
 ## FAQ

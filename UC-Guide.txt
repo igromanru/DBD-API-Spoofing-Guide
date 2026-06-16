@@ -97,6 +97,7 @@ You can either try to compile the latest version of the open source tool and upd
 [*]Press [B]1[/B] to select the only [B].usmap[/B] that should be in the exe's directory, then press Enter to continue.
 [/LIST]
 [*]After setting up the Melancholy tool, it will start asking you about what you want to generate. Press [B]Y[/B] or [B]N[/B] to select your options, or simply keep the default by pressing [B]Enter[/B] to continue.
+    [B] Important:[/B] Press "N" if it asks whether you want to generate Banners and Badges! You can't use them anyway.
 [*]Once done, the [B]Files[/B] directory will contain new [B]MarketFiles[/B].
 [/LIST]
 
