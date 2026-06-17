@@ -125,5 +125,8 @@ So try to remember which Characters you own and only use them. You can start the
 - Igromanru (me) for the FiddlerScript and the guide
 
 [SIZE="4"][B]Downloads[/B][/SIZE]
-[URL="https://www.unknowncheats.me/forum/downloads.php?do=file&id=55463"]DBD Responses Merge FS v1.0.0 + MarketFiles[/URL]
+[URL="https://www.unknowncheats.me/forum/downloads.php?do=file&id=55667"]DBD Responses Merge FS v1.1.0 + MarketFiles v10.0.0[/URL]
 [URL="https://www.unknowncheats.me/forum/downloads.php?do=file&id=55464"]Melancholy_v9.6.0_GhostyPool-Fork_win-x64[/URL]
+
+[B]Old downloads[/B]
+[URL="https://www.unknowncheats.me/forum/downloads.php?do=file&id=55463"]DBD Responses Merge FS v1.0.0 + MarketFiles v9.6.2[/URL]
