@@ -1,8 +1,10 @@
 ﻿/// 
-/// FiddleScript that merges original DBD API responses with spoofed responses from files.
+/// My FiddleScript that merges original DBD API responses with spoofed responses from files.
+/// And blocks game log requests to prevent them from being sent to the server.
 /// Author: Igromanru
 /// Created: 2026-06-07
-/// Version: 1.0.0
+/// LastModified: 2026-06-12
+/// Version: 1.1.0
 /// Instructions:
 /// - Set Scripting language to "C#" in Tools->Options->Scripting->Language
 /// - Set references to "System.Core.dll;Newtonsoft.Json.dll" in Tools->Options->Scripting->References
@@ -70,6 +72,9 @@ namespace Fiddler
     {
         public class BloodwebResponse
         {
+            [JsonProperty("characterName")]
+            public string CharacterName { get; set; }
+
             [JsonExtensionData]
             public IDictionary<string, JToken> AdditionalData { get; set; }
         }
@@ -82,7 +87,7 @@ namespace Fiddler
         private static readonly string ScriptsDir = Fiddler.CONFIG.GetPath("Scripts");
         struct MergeTarget
         {
-            
+
             public object DeserializedResponseObject;
             public MergeResponsesDelegate MergeResponses;
         }
@@ -112,12 +117,29 @@ namespace Fiddler
         [RulesOption("Enable DBD Responses Merge")]
         public static bool EnableResponsesMerge = true;
 
-        public static readonly string ScriptName = "DbdMergeResponses";
+        [RulesOption("Enable DBD Block Log Requests")]
+        public static bool EnableBlockLogRequests = true;
+
+        public static readonly string ScriptName = "Igromanru's DBD FiddlerScript";
 
         // public static void Main()
         // {
         //     FiddlerApplication.Log.LogFormat("[{0}] Scripts directory: {1}", ScriptName, ScriptsDir);
         // }
+
+        public static void OnBeforeRequest(Session oSession)
+        {
+            if (oSession == null)
+                return;
+
+            if (EnableBlockLogRequests && oSession.uriContains("/api/v1/gameLogs/batch"))
+            {
+                oSession.utilCreateResponseAndBypassServer();
+                oSession.oResponse.headers.HTTPResponseStatus = "200 OK";
+                oSession.oResponse["Content-Type"] = "application/json";
+                oSession.utilSetResponseBody("{\"Encrypted\":false,\"FailedPutCount\":0,\"RequestResponses\":[{\"RecordId\":\"\"}]}");
+            }
+        }
 
         public static void OnBeforeResponse(Session oSession)
         {
@@ -139,7 +161,7 @@ namespace Fiddler
                     string merged = mergeTarget.MergeResponses(responseBody, mergeTarget.DeserializedResponseObject);
 
                     oSession.utilSetResponseBody(merged);
-                    
+
                     FiddlerApplication.Log.LogFormat("[{0}] Success: {1}", ScriptName, apiPath);
                 }
                 catch (Exception ex)
@@ -153,35 +175,31 @@ namespace Fiddler
 
         private static string MergeGetAllResponses(string originalJson, object responseObject)
         {
-            var originalJsonResponse = JsonConvert.DeserializeObject<GetAllSchema.GetAllResponse>(originalJson) ?? new GetAllSchema.GetAllResponse();
-            var spoofJsonResponse = responseObject as GetAllSchema.GetAllResponse ?? new GetAllSchema.GetAllResponse();
+            GetAllSchema.GetAllResponse originalJsonResponse = JsonConvert.DeserializeObject<GetAllSchema.GetAllResponse>(originalJson) ?? new GetAllSchema.GetAllResponse();
+            GetAllSchema.GetAllResponse spoofJsonResponse = responseObject as GetAllSchema.GetAllResponse ?? new GetAllSchema.GetAllResponse();
 
             if (originalJsonResponse.Entries == null) originalJsonResponse.Entries = new List<GetAllSchema.CharacterEntry>();
             if (spoofJsonResponse.Entries == null) return originalJson;
 
-            foreach (var entry in spoofJsonResponse.Entries)
+            foreach (GetAllSchema.CharacterEntry spoofEntry in spoofJsonResponse.Entries)
             {
-                if (string.IsNullOrEmpty(entry.CharacterName))
+                if (string.IsNullOrEmpty(spoofEntry.CharacterName))
                     continue;
 
-                var existingEntry = originalJsonResponse.Entries.Find(e => e.CharacterName == entry.CharacterName);
+                GetAllSchema.CharacterEntry existingEntry = originalJsonResponse.Entries.Find(e => e.CharacterName == spoofEntry.CharacterName);
                 if (existingEntry == null)
                 {
-                    originalJsonResponse.Entries.Add(entry);
+                    originalJsonResponse.Entries.Add(spoofEntry);
                 }
                 else
                 {
-                    existingEntry.PrestigeLevel = entry.PrestigeLevel;
-                    existingEntry.LegacyPrestigeLevel = entry.LegacyPrestigeLevel;
+                    existingEntry.PrestigeLevel = spoofEntry.PrestigeLevel;
+                    existingEntry.LegacyPrestigeLevel = spoofEntry.LegacyPrestigeLevel;
 
-                    if (entry.AdditionalData != null)
+                    if (spoofEntry.AdditionalData != null)
                     {
-                        if (existingEntry.AdditionalData == null)
-                        {
-                            existingEntry.AdditionalData = new Dictionary<string, JToken>();
-                        }
-
-                        foreach (var kvp in entry.AdditionalData)
+                        if (existingEntry.AdditionalData == null) existingEntry.AdditionalData = new Dictionary<string, JToken>();
+                        foreach (var kvp in spoofEntry.AdditionalData)
                         {
                             existingEntry.AdditionalData[kvp.Key] = kvp.Value;
                         }
@@ -194,8 +212,8 @@ namespace Fiddler
 
         private static string MergeAllResponses(string originalJson, object responseObject)
         {
-            var originalJsonResponse = JsonConvert.DeserializeObject<AllSchema.AllResponse>(originalJson) ?? new AllSchema.AllResponse();
-            var spoofJsonResponse = responseObject as AllSchema.AllResponse ?? new AllSchema.AllResponse();
+            AllSchema.AllResponse originalJsonResponse = JsonConvert.DeserializeObject<AllSchema.AllResponse>(originalJson) ?? new AllSchema.AllResponse();
+            AllSchema.AllResponse spoofJsonResponse = responseObject as AllSchema.AllResponse ?? new AllSchema.AllResponse();
 
             if (originalJsonResponse.InventoryItems == null) originalJsonResponse.InventoryItems = new List<AllSchema.InventoryItem>();
             if (spoofJsonResponse.InventoryItems == null) return originalJson;
@@ -205,7 +223,7 @@ namespace Fiddler
                 if (string.IsNullOrEmpty(item.ObjectId))
                     continue;
 
-                var existingItem = originalJsonResponse.InventoryItems.Find(i => i.ObjectId == item.ObjectId);
+                AllSchema.InventoryItem existingItem = originalJsonResponse.InventoryItems.Find(i => i.ObjectId == item.ObjectId);
                 if (existingItem == null)
                 {
                     originalJsonResponse.InventoryItems.Add(item);
@@ -216,10 +234,7 @@ namespace Fiddler
 
                     if (item.AdditionalData != null)
                     {
-                        if (existingItem.AdditionalData == null)
-                        {
-                            existingItem.AdditionalData = new Dictionary<string, JToken>();
-                        }
+                        if (existingItem.AdditionalData == null) existingItem.AdditionalData = new Dictionary<string, JToken>();
 
                         foreach (var kvp in item.AdditionalData)
                         {
@@ -234,8 +249,8 @@ namespace Fiddler
 
         private static string MergeBloodwebResponses(string originalJson, object responseObject)
         {
-            var originalJsonResponse = JsonConvert.DeserializeObject<BloodwebSchema.BloodwebResponse>(originalJson) ?? new BloodwebSchema.BloodwebResponse();
-            var spoofJsonResponse = responseObject as BloodwebSchema.BloodwebResponse ?? new BloodwebSchema.BloodwebResponse();
+            BloodwebSchema.BloodwebResponse originalJsonResponse = JsonConvert.DeserializeObject<BloodwebSchema.BloodwebResponse>(originalJson) ?? new BloodwebSchema.BloodwebResponse();
+            BloodwebSchema.BloodwebResponse spoofJsonResponse = responseObject as BloodwebSchema.BloodwebResponse ?? new BloodwebSchema.BloodwebResponse();
 
             if (originalJsonResponse.AdditionalData == null) originalJsonResponse.AdditionalData = new Dictionary<string, JToken>();
             if (spoofJsonResponse.AdditionalData == null) return originalJson;
