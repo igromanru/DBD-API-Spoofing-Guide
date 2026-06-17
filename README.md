@@ -1,13 +1,13 @@
 # Dead by Daylight Items, Perks and Skins temporary Unlock Guide
 In DBD you can hijack and spoof API responses to trick the game into thinking that you own certain/all Items, Perks, Skins, and set custom character prestige level.  
 Currently, the game just lets you roll with it and you can use them freely in online matches.  
-They only check on the server whether you own the character, profile picture, and banner when you join a server, so don't try to use anything that you haven't unlocked through normal means, or you will be kicked from the server and receive a "leave penalty."  
+They only check on the server whether you own the character, badge, and banner when you join a server, so don't try to use anything that you haven't unlocked through normal means, or you will be kicked from the server and receive a "leave penalty."  
 
 This guide is built around my C# FiddlerScript that automatically merges original API responses with the "spoof" JSON files containing all items and stuff that will be unlocked.  
 Merging preserves loadouts and everything else that wasn't covered by the JSON files.
 
 **Important Clarification!**  
-While you might see all characters, banners, and profile pictures as usable, they are not!  
+While you might see all characters, banners, and badges as usable, they are not!  
 It was fixed years ago on the server side, and you will be kicked from the server the moment you join with a character you don't own!  
 If you want to play a character, start the game without Fiddler, buy the character, then you can use it.
 
@@ -65,7 +65,7 @@ After installing and launching Fiddler:
 
 ## Market aka. "/all" response options
 MarketFiles has multiple options for the "/all" API endpoint, which basically contains most of the things that get unlocked. You can choose between the following files:  
-- `Market.json`: Contains all inventory items (that you choose while generating with Melancholy). Items, Perks, Skins, profile pictures and banners.  
+- `Market.json`: Contains all inventory items (that you choose while generating with Melancholy). Items, Perks, Skins, badges and banners.  
 - `MarketDlcOnly.json`: Contains only characters. (It's an obsolete file, since you can't unlock characters this way anymore)
 - `MarketNoSavefile.json`: No Perks and Items. You will partially see them thanks to Bloodweb spoof, but overall can't recommend to use it.
 - `MarketTempWithNoCosmetics.json`: Only Items, Addons, Perks, and Characters 
@@ -124,9 +124,9 @@ Open the Bloodweb to re-load the items.
 
 ### Is it safe to use?
 Fiddler is a certified software, which will never get you banned just for using it.  
-Temporarily unlocking Items, Perks, and Skins is safe. They aren't saved to your account; you basically just trick your client into allowing you to select them, and then when a match starts, the game tells the server which Character, Banner, Profile Picture, Skins, Items, and Perks you've selected.  
-It's up to the server to check whether you actually own the things you want to use, and currently the server only checks ownership of Characters, Banners, and Profile Pictures.  
-I can't remember if you get kicked for trying to use a Banner or Profile Picture that you don't own, but I remember that you can't use them, and you will definitely get kicked for trying to use characters you don't have.  
+Temporarily unlocking Items, Perks, and Skins is safe. They aren't saved to your account; you basically just trick your client into allowing you to select them, and then when a match starts, the game tells the server which Character, Banner, Badge, Skins, Items, and Perks you've selected.  
+It's up to the server to check whether you actually own the things you want to use, and currently the server only checks ownership of Characters, Banners, and Badges.  
+I can't remember if you get kicked for trying to use a Banner or Badge that you don't own, but I remember that you can't use them, and you will definitely get kicked for trying to use characters you don't have.  
 If you get kicked from the server, it counts as leaving the game, which will lead to [Disconnection Penalty](https://support.deadbydaylight.com/hc/en-us/articles/4497940181652-Disconnection-Penalty-Matchmaking-Locked).  
 So try to remember which Characters you own and only use them. You can start the game without Fiddler, select in character filter to show only "Unlocked" characters and make a screenshot for later references.  
 
