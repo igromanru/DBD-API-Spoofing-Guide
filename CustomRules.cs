@@ -1,10 +1,11 @@
 ﻿/// 
 /// My FiddleScript that merges original DBD API responses with spoofed responses from files.
-/// And blocks game log requests to prevent them from being sent to the server.
+/// And blocks game log requests to prevent them from being sent to the server. (no idea if it does anything)
+/// With v1.3.0 the script now saves your customization presets to a file and tries to restore them.
 /// Author: Igromanru
 /// Created: 2026-06-07
-/// LastModified: 2026-06-12
-/// Version: 1.1.0
+/// LastModified: 2026-07-03
+/// Version: 1.3.0
 /// Instructions:
 /// - Set Scripting language to "C#" in Tools->Options->Scripting->Language
 /// - Set references to "System.Core.dll;Newtonsoft.Json.dll" in Tools->Options->Scripting->References
@@ -25,6 +26,59 @@ namespace Fiddler
 {
     namespace GetAllSchema
     {
+        public class Charm
+        {
+            [JsonProperty("charmId")]
+            public string CharmId { get; set; }
+
+            [JsonProperty("slotIndex")]
+            public int SlotIndex { get; set; }
+        }
+
+        public class Preset
+        {
+            [JsonProperty("head")]
+            public string Head { get; set; }
+
+            [JsonProperty("legsOrWeapon")]
+            public string LegsOrWeapon { get; set; }
+
+            [JsonProperty("torsoOrBody")]
+            public string TorsoOrBody { get; set; }
+
+            [JsonProperty("charms")]
+            public List<Charm> Charms { get; set; }
+        }
+
+        public class Online
+        {
+            [JsonProperty("active")]
+            public int Active { get; set; }
+
+            [JsonProperty("presets")]
+            public List<Preset> Presets { get; set; }
+
+            [JsonExtensionData]
+            public IDictionary<string, JToken> AdditionalData { get; set; }
+
+            public Online()
+            {
+                Active = 0;
+                Presets = new List<Preset>();
+            }
+        }
+
+        public class Customizations
+        {
+            [JsonProperty("Online")]
+            public Online Online { get; set; }
+
+            public Customizations()
+            {
+                this.Online = new Online();
+            }
+        }
+
         public class CharacterEntry
         {
             [JsonProperty("characterName")]
@@ -35,6 +89,12 @@ namespace Fiddler
 
             [JsonProperty("prestigeLevel")]
             public int PrestigeLevel { get; set; }
+
+            [JsonProperty("isEntitled")]
+            public bool IsEntitled { get; set; }
+
+            [JsonProperty("customizations")]
+            public Customizations Customizations { get; set; }
 
             [JsonExtensionData]
             public IDictionary<string, JToken> AdditionalData { get; set; }
@@ -80,14 +140,38 @@ namespace Fiddler
         }
     }
 
+    namespace LoadoutSchema
+    {
+        public class Customizations
+        {
+            [JsonProperty("active")]
+            public int Active { get; set; }
+
+            [JsonProperty("presets")]
+            public List<GetAllSchema.Preset> Presets { get; set; }
+        }
+
+        public class Root
+        {
+            [JsonProperty("character")]
+            public string Character { get; set; }
+
+            [JsonProperty("customizations")]
+            public Customizations Customizations { get; set; }
+
+            [JsonExtensionData]
+            public IDictionary<string, JToken> AdditionalData { get; set; }
+        }
+    }
+
     public static class Handlers
     {
         public delegate string MergeResponsesDelegate(string originalJson, object responseObject);
 
         private static readonly string ScriptsDir = Fiddler.CONFIG.GetPath("Scripts");
+
         struct MergeTarget
         {
-
             public object DeserializedResponseObject;
             public MergeResponsesDelegate MergeResponses;
         }
@@ -120,12 +204,49 @@ namespace Fiddler
         [RulesOption("Enable DBD Block Log Requests")]
         public static bool EnableBlockLogRequests = true;
 
-        public static readonly string ScriptName = "Igromanru's DBD FiddlerScript";
+        private static readonly string ScriptName = "Igromanru's DBD FiddlerScript";
 
-        // public static void Main()
-        // {
-        //     FiddlerApplication.Log.LogFormat("[{0}] Scripts directory: {1}", ScriptName, ScriptsDir);
-        // }
+        private static readonly string CharacterPresetsFile = ScriptsDir + @"CharacterPresetsDb.json";
+
+        private static Dictionary<string, List<GetAllSchema.Preset>> CharacterPresets { get; set; }
+
+        private static void LoadCharacterPresetsFromFile()
+        {
+            try
+            {
+                CharacterPresets = JsonConvert.DeserializeObject<Dictionary<string, List<GetAllSchema.Preset>>>(File.ReadAllText(CharacterPresetsFile));
+            }
+            catch (Exception ex)
+            {
+                CharacterPresets = new Dictionary<string, List<GetAllSchema.Preset>>();
+                FiddlerApplication.Log.LogFormat("[{0}] Error: Failed to load {1}.\n{2}", ScriptName, CharacterPresetsFile, ex.Message);
+            }
+        }
+
+        private static void SaveCharacterPresetsToFile()
+        {
+            try
+            {
+                JsonSerializerSettings settings = new JsonSerializerSettings
+                {
+                    Formatting = Formatting.Indented,
+                    NullValueHandling = NullValueHandling.Ignore
+                };
+                string json = JsonConvert.SerializeObject(CharacterPresets, settings);
+                File.WriteAllText(CharacterPresetsFile, json);
+            }
+            catch (Exception ex)
+            {
+                FiddlerApplication.Log.LogFormat("[{0}] Error: Failed to write to {1}.\n{2}", ScriptName, CharacterPresetsFile, ex.Message);
+            }
+        }
+
+        public static void Main()
+        {
+            FiddlerApplication.Log.LogFormat("[{0}] Scripts directory: {1}", ScriptName, ScriptsDir);
+
+            LoadCharacterPresetsFromFile();
+        }
 
         public static void OnBeforeRequest(Session oSession)
         {
@@ -143,7 +264,22 @@ namespace Fiddler
 
         public static void OnBeforeResponse(Session oSession)
         {
-            if (!EnableResponsesMerge || oSession == null)
+            if (oSession == null)
+                return;
+
+            if (oSession.uriContains("/api/v1/dbd-character-data/loadout"))
+            {
+                oSession.utilDecodeResponse();
+                string responseBody = oSession.GetResponseBodyAsString();
+                LoadoutSchema.Root loadout = JsonConvert.DeserializeObject<LoadoutSchema.Root>(responseBody);
+                if (loadout.Character == null || loadout.Customizations == null) return;
+
+                CharacterPresets[loadout.Character] = loadout.Customizations.Presets;
+                SaveCharacterPresetsToFile();
+                return;
+            }
+
+            if (!EnableResponsesMerge)
                 return;
 
             foreach (var kvp in MergeTargets)
@@ -186,15 +322,30 @@ namespace Fiddler
                 if (string.IsNullOrEmpty(spoofEntry.CharacterName))
                     continue;
 
+                // GetAllSchema.CharacterEntry existingEntry = originalJsonResponse.Entries.Find(e => e.CharacterName == spoofEntry.CharacterName);
+                // if (existingEntry == null)
+                // {
+                //     originalJsonResponse.Entries.Add(spoofEntry);
+                // }
+                // else
                 GetAllSchema.CharacterEntry existingEntry = originalJsonResponse.Entries.Find(e => e.CharacterName == spoofEntry.CharacterName);
-                if (existingEntry == null)
-                {
-                    originalJsonResponse.Entries.Add(spoofEntry);
-                }
-                else
+                if (existingEntry != null && existingEntry.IsEntitled)
                 {
                     existingEntry.PrestigeLevel = spoofEntry.PrestigeLevel;
                     existingEntry.LegacyPrestigeLevel = spoofEntry.LegacyPrestigeLevel;
+                    existingEntry.Customizations = spoofEntry.Customizations;
+
+                    List<GetAllSchema.Preset> presets;
+                    if (CharacterPresets.TryGetValue(existingEntry.CharacterName, out presets))
+                    {
+                        if (presets != null && presets.Count > 0)
+                        {
+                            if (existingEntry.Customizations == null) existingEntry.Customizations = new GetAllSchema.Customizations();
+                            existingEntry.Customizations.Online.Presets = presets;
+
+                            FiddlerApplication.Log.LogFormat("[{0}] {1} Presets found for {2}", ScriptName, presets.Count, existingEntry.CharacterName);
+                        }
+                    }
 
                     if (spoofEntry.AdditionalData != null)
                     {

@@ -22,7 +22,11 @@ If you want to play a character, start the game without Fiddler, buy the charact
 - [Market aka. "/all" response options](#market-aka-all-response-options)
 - [Market files aka. API responses generation](#market-files-aka-api-responses-generation)
 - [FAQ](#faq)
-   - [SSL Bypass / Fiddler doesn't work with the Steam version](#ssl-bypass--fiddler-doesnt-work-with-the-steam-version)
+    - [SSL Bypass / Fiddler doesn't work with the Steam version](#ssl-bypass--fiddler-doesnt-work-with-the-steam-version)
+    - [After playing a match the items disappear](#after-playing-a-match-the-items-disappear)
+    - [Is it safe to use?](#is-it-safe-to-use)
+    - [Can DLC characters be unlocked somehow?](#can-dlc-characters-be-unlocked-somehow)
+- [Changelog](#changelog)
 - [Credits](#credits)
 
 
@@ -129,6 +133,18 @@ It's up to the server to check whether you actually own the things you want to u
 I can't remember if you get kicked for trying to use a Banner or Badge that you don't own, but I remember that you can't use them, and you will definitely get kicked for trying to use characters you don't have.  
 If you get kicked from the server, it counts as leaving the game, which will lead to [Disconnection Penalty](https://support.deadbydaylight.com/hc/en-us/articles/4497940181652-Disconnection-Penalty-Matchmaking-Locked).  
 So try to remember which Characters you own and only use them. You can start the game without Fiddler, select in character filter to show only "Unlocked" characters and make a screenshot for later references.  
+
+### Can DLC characters be unlocked somehow?
+According to some people, there are exploits that allow unlocking all characters in the Epic Games and MS Store versions of the game. However, these methods are private; they go beyond simple response spoofing and actually impact your account, which can be easily checked and detected by the devs.
+  
+I don't know how to achieve it, and even if I did, I wouldn't make it public either.
+
+## Changelog
+**v1.3.0**  
+Added the ability to save customization presets from the "loadout-save" request and inject them later into the "get-all" response, which is a workaround to preserve previously selected customizations.  
+**v1.2.0**  
+Changed the behavior to only merge the "get-all" response for characters that the user owns, which allows identifying characters that can't be used by their prestige level.
+
 
 ## Credits
 - Ossie (OssieFromDK) for [Melancholy](https://github.com/OssieFromDK/Melancholy) (market files generator)
