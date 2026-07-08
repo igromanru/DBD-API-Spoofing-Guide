@@ -22,13 +22,12 @@ If you want to play a character, start the game without Fiddler, buy the charact
 - [Market aka. "/all" response options](#market-aka-all-response-options)
 - [Market files aka. API responses generation](#market-files-aka-api-responses-generation)
 - [FAQ](#faq)
-    - [SSL Bypass / Fiddler doesn't work with the Steam version](#ssl-bypass--fiddler-doesnt-work-with-the-steam-version)
+    - [Fiddler doesn't work with the Steam version. | When is a SSL Bypass needed?](#fiddler-doesnt-work-with-the-steam-version--when-is-a-ssl-bypass-needed)
     - [After playing a match the items disappear](#after-playing-a-match-the-items-disappear)
     - [Is it safe to use?](#is-it-safe-to-use)
     - [Can DLC characters be unlocked somehow?](#can-dlc-characters-be-unlocked-somehow)
 - [Changelog](#changelog)
 - [Credits](#credits)
-
 
 ## Required resources
 ### For unlocking
@@ -118,10 +117,12 @@ You can either try to compile the latest version of the open source tool and upd
 10. Once done, the `Files` directory will contain new `MarketFiles`.
 
 ## FAQ
-### SSL Bypass / Fiddler doesn't work with the Steam version
+### Fiddler doesn't work with the Steam version. | When is a SSL Bypass needed?
 In the Steam version of the game, certificate validation is enabled.  
-In order to be able to use Fiddler or any other HTTP proxy to decode encrypted requests, you need to disable the validation.  
+In order to be able to use Fiddler or any other HTTP proxy to decode encrypted traffic, you need to disable the validation.  
 For that you need an EAC-undetected "SSL Bypass".  
+
+*Don't ask me about it, I don't provide a SSL Bypass even for money!*
 
 ### After playing a match the items disappear
 Open the Bloodweb to re-load the items.
