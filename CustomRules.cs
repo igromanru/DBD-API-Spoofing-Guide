@@ -1,11 +1,11 @@
 ﻿/// 
-/// My FiddleScript that merges original DBD API responses with spoofed responses from files.
+/// My FiddlerScript that merges original DBD API responses with spoofed responses from files.
 /// And blocks game log requests to prevent them from being sent to the server. (no idea if it does anything)
 /// With v1.3.0 the script now saves your customization presets to a file and tries to restore them.
 /// Author: Igromanru
 /// Created: 2026-06-07
-/// LastModified: 2026-07-03
-/// Version: 1.3.0
+/// LastModified: 2026-07-20
+/// Version: 1.3.1
 /// Instructions:
 /// - Set Scripting language to "C#" in Tools->Options->Scripting->Language
 /// - Set references to "System.Core.dll;Newtonsoft.Json.dll" in Tools->Options->Scripting->References
@@ -252,6 +252,12 @@ namespace Fiddler
         {
             if (oSession == null)
                 return;
+
+            if (oSession.HTTPMethodIs("CONNECT") && oSession.hostname != "bhvrdbd.com" && !oSession.hostname.EndsWith(".bhvrdbd.com"))
+            {
+                oSession["x-no-decrypt"] = "true";
+                oSession.bypassGateway = true;
+            }
 
             if (EnableBlockLogRequests && oSession.uriContains("/api/v1/gameLogs/batch"))
             {
