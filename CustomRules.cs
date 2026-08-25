@@ -198,11 +198,14 @@ namespace Fiddler
             }
         };
 
+        [RulesOption("Enable DBD Custom Rules (disabled all options)")]
+        public static bool EnableDBDCustomRules = true;
+
         [RulesOption("Enable DBD Responses Merge")]
         public static bool EnableResponsesMerge = true;
 
         [RulesOption("Enable DBD Block Log Requests")]
-        public static bool EnableBlockLogRequests = true;
+        public static bool EnableBlockLogRequests = false;
 
         private static readonly string ScriptName = "Igromanru's DBD FiddlerScript";
 
@@ -250,7 +253,7 @@ namespace Fiddler
 
         public static void OnBeforeRequest(Session oSession)
         {
-            if (oSession == null)
+            if (oSession == null || !EnableDBDCustomRules)
                 return;
 
             if (oSession.HTTPMethodIs("CONNECT") && oSession.hostname != "bhvrdbd.com" && !oSession.hostname.EndsWith(".bhvrdbd.com"))
@@ -270,18 +273,25 @@ namespace Fiddler
 
         public static void OnBeforeResponse(Session oSession)
         {
-            if (oSession == null)
+            if (oSession == null || !EnableDBDCustomRules)
                 return;
 
             if (oSession.uriContains("/api/v1/dbd-character-data/loadout"))
             {
-                oSession.utilDecodeResponse();
-                string responseBody = oSession.GetResponseBodyAsString();
-                LoadoutSchema.Root loadout = JsonConvert.DeserializeObject<LoadoutSchema.Root>(responseBody);
-                if (loadout.Character == null || loadout.Customizations == null) return;
+                try
+                {
+                    oSession.utilDecodeResponse();
+                    string responseBody = oSession.GetResponseBodyAsString();
+                    LoadoutSchema.Root loadout = JsonConvert.DeserializeObject<LoadoutSchema.Root>(responseBody);
+                    if (loadout.Character == null || loadout.Customizations == null) return;
 
-                CharacterPresets[loadout.Character] = loadout.Customizations.Presets;
-                SaveCharacterPresetsToFile();
+                    CharacterPresets[loadout.Character] = loadout.Customizations.Presets;
+                    SaveCharacterPresetsToFile();
+                }
+                catch (Exception ex)
+                {
+                    FiddlerApplication.Log.LogFormat("[{0}] Error loadout: {1}", ScriptName, ex.Message);
+                }
                 return;
             }
 
